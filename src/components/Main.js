@@ -44,7 +44,7 @@ function Main() {
 
   //variables
   const [temperature, setTemperature] = useState()
-  const [weather, setWeather] = useState()
+  const [skyCover, setSkyCover] = useState()
   const [city, setCity] = useState()
   const [country, setCountry] = useState()
 
@@ -60,11 +60,13 @@ function Main() {
       )
         .then(response => response.json())
         .then(data => {
+          console.log(data.weather[0].main)
+          let main
           let temp = Math.floor(data.main.temp - 273.15)
           let description = data.weather[0].description
 
           setTemperature(temp)
-          setWeather(description)
+          setSkyCover(description)
           setCity(data.name)
           setCountry(data.sys.country)
         })
@@ -97,7 +99,7 @@ function Main() {
             <span className="temperature__symbol">°</span>
             <sup className="temperature__unit">C</sup>
           </h1>
-          <p className="skyCover">{weather}</p>
+          <p className="skyCover">{skyCover}</p>
         </Header>
         <Search />
       </SectionCenter>
