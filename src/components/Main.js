@@ -114,17 +114,26 @@ function Main() {
         <small>credits to the owner:</small>
         <ul>
           <li>
-            <a href="https://www.freepik.com/vectors/fluffy-clouds">
+            <a
+              href="https://www.freepik.com/vectors/fluffy-clouds"
+              target="_blank"
+            >
               Fluffy clouds vector created by starline - www.freepik.com
             </a>
           </li>
           <li>
-            <a href="https://www.freepik.com/vectors/background">
+            <a
+              href="https://www.freepik.com/vectors/background"
+              target="_blank"
+            >
               Background vector created by starline - www.freepik.com
             </a>
           </li>
           <li>
-            <a href="https://www.freepik.com/vectors/background">
+            <a
+              href="https://www.freepik.com/vectors/background"
+              target="_blank"
+            >
               Background vector created by freepik - www.freepik.com
             </a>
           </li>
