@@ -47,6 +47,7 @@ function Main() {
   const [skyCover, setSkyCover] = useState()
   const [city, setCity] = useState()
   const [country, setCountry] = useState()
+  const [bgImage, setBgImage] = useState("sunny.jpg")
 
   //get weather function
   const getWeather = () => {
@@ -61,9 +62,16 @@ function Main() {
         .then(response => response.json())
         .then(data => {
           console.log(data.weather[0].main)
-          let main
+          let main = data.weather[0].main
           let temp = Math.floor(data.main.temp - 273.15)
           let description = data.weather[0].description
+          main = "Rain"
+          //change bg image
+          if (main === "Rain") {
+            setBgImage(prevBgImage => (prevBgImage = "rain.jpg"))
+          } else if (main === "Snow") {
+            setBgImage(prevBgImage => (prevBgImage = "snow.jpg"))
+          }
 
           setTemperature(temp)
           setSkyCover(description)
@@ -77,7 +85,7 @@ function Main() {
     }
     navigator.geolocation.getCurrentPosition(success, error)
   }
-  //
+  //running the weather function
   React.useEffect(() => {
     getWeather()
   }, [])
@@ -85,7 +93,7 @@ function Main() {
   return (
     <Wrap
       style={{
-        background: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.3)), url(./assets/sunny.jpg) center left/cover no-repeat`,
+        background: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.3)), url(./assets/${bgImage}) center left/cover no-repeat`,
       }}
     >
       <SectionCenter>
@@ -104,21 +112,21 @@ function Main() {
         <Search />
       </SectionCenter>
       <footer>
-        <small>credits for images:</small>
+        <small>credits to the owner:</small>
         <ul>
           <li>
-            <a href="https://www.freepik.com/vectors/flower">
-              Flower vector created by freepik - www.freepik.com
+            <a href="https://www.freepik.com/vectors/fluffy-clouds">
+              Fluffy clouds vector created by starline - www.freepik.com
             </a>
           </li>
           <li>
-            <a href="https://www.freepik.com/vectors/swamp">
-              Swamp vector created by upklyak - www.freepik.com
+            <a href="https://www.freepik.com/vectors/background">
+              Background vector created by starline - www.freepik.com
             </a>
           </li>
           <li>
-            <a href="https://www.freepik.com/vectors/winter-cartoon">
-              Winter cartoon vector created by katemangostar - www.freepik.com
+            <a href="https://www.freepik.com/vectors/background">
+              Background vector created by freepik - www.freepik.com
             </a>
           </li>
         </ul>
