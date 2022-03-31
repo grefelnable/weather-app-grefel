@@ -1,8 +1,14 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
+import Search from "./Search"
 
-const key = "d26e67ed1ea6bd90cd49c86a33182a09"
+const api = {
+  key: "d26e67ed1ea6bd90cd49c86a33182a09",
+  base: "https://api.openweathermap.org/data/2.5/",
+}
+
 function Main() {
+  //date function
   const dateBuilder = newDate => {
     let days = [
       "Sunday",
@@ -32,26 +38,89 @@ function Main() {
     let month = months[newDate.getMonth()]
     let year = newDate.getFullYear()
     let date = newDate.getDate()
-    console.log(day, month, date, year)
 
     return `${day}, ${month} ${date}, ${year}`
   }
+
+  //variables
+  const [temperature, setTemperature] = useState()
+  const [weather, setWeather] = useState()
+  const [city, setCity] = useState()
+  const [country, setCountry] = useState()
+
+  //get weather function
+  const getWeather = () => {
+    const success = position => {
+      let latitude = position.coords.latitude
+      let longitude = position.coords.longitude
+
+      //fetch weather
+      fetch(
+        `${api.base}weather?lat=${latitude}&lon=${longitude}&appid=${api.key}`
+      )
+        .then(response => response.json())
+        .then(data => {
+          let temp = Math.floor(data.main.temp - 273.15)
+          let description = data.weather[0].description
+
+          setTemperature(temp)
+          setWeather(description)
+          setCity(data.name)
+          setCountry(data.sys.country)
+        })
+    }
+
+    const error = () => {
+      alert("unable to retrieve your location")
+    }
+    navigator.geolocation.getCurrentPosition(success, error)
+  }
+  //
   React.useEffect(() => {
-    dateBuilder(new Date())
+    getWeather()
   }, [])
+
   return (
     <Wrap
       style={{
         background: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.3)), url(./assets/sunny.jpg) center left/cover no-repeat`,
       }}
     >
-      <SearchInput type="text" placeholder="Search City..." />
-      <Header>
-        <p className="location">oshawa, ca</p>
-        <p className="date">{dateBuilder(new Date())}</p>
-        <h1 className="temperature">1°</h1>
-        <p className="skyCover">it's cloudy</p>
-      </Header>
+      <SectionCenter>
+        <Header>
+          <p className="location">
+            <span className="location__symbol">⚲</span> {city}, {country}
+          </p>
+          <p className="date">{dateBuilder(new Date())}</p>
+          <h1 className="temperature">
+            {temperature}
+            <span className="temperature__symbol">°</span>
+            <sup className="temperature__unit">C</sup>
+          </h1>
+          <p className="skyCover">{weather}</p>
+        </Header>
+        <Search />
+      </SectionCenter>
+      <footer>
+        <small>credits for images:</small>
+        <ul>
+          <li>
+            <a href="https://www.freepik.com/vectors/flower">
+              Flower vector created by freepik - www.freepik.com
+            </a>
+          </li>
+          <li>
+            <a href="https://www.freepik.com/vectors/swamp">
+              Swamp vector created by upklyak - www.freepik.com
+            </a>
+          </li>
+          <li>
+            <a href="https://www.freepik.com/vectors/winter-cartoon">
+              Winter cartoon vector created by katemangostar - www.freepik.com
+            </a>
+          </li>
+        </ul>
+      </footer>
     </Wrap>
   )
 }
@@ -63,44 +132,64 @@ const Wrap = styled.div`
   padding-top: 4em;
   padding-left: 2em;
   color: #fff;
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-const SearchInput = styled.input`
-  font-size: 1.5rem;
-  text-transform: capitalize;
-  border: transparent;
-  padding: 0.25em 0.5em;
-  border-radius: 0.25em;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.3)
-  );
-  color: #fff;
-  outline: none;
-  margin-bottom: 1.25em;
+  footer {
+    text-align: center;
+    padding-bottom: 2em;
+    line-height: 1.3;
+    li {
+      list-style-type: none;
 
-  &::placeholder {
-    color: #fff;
+      a {
+        color: white;
+        font-size: 0.75rem;
+      }
+    }
   }
+`
+const SectionCenter = styled.div`
+  width: 90vw;
+  max-width: 1400px;
+  margin: 0 auto;
 `
 
 const Header = styled.div`
+  margin-bottom: 2em;
   .location {
     font-size: 2rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
+
+    &__symbol {
+      color: red;
+      font-weight: 700;
+    }
   }
 
   .date {
     font-size: 1rem;
     font-style: italic;
+    margin-left: 2.25em;
   }
   .temperature {
     font-size: 10rem;
+
+    &__symbol {
+      font-weight: 300;
+    }
+
+    &__unit {
+      font-size: 4rem;
+      font-weight: 300;
+    }
   }
 
   .skyCover {
     font-size: 1.5rem;
     text-transform: capitalize;
+    margin-left: 1em;
   }
 `
