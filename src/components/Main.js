@@ -117,6 +117,7 @@ function Main() {
             <a
               href="https://www.freepik.com/vectors/fluffy-clouds"
               target="_blank"
+              rel="noopener"
             >
               Fluffy clouds vector created by starline - www.freepik.com
             </a>
@@ -125,6 +126,7 @@ function Main() {
             <a
               href="https://www.freepik.com/vectors/background"
               target="_blank"
+              rel="noopener"
             >
               Background vector created by starline - www.freepik.com
             </a>
@@ -133,6 +135,7 @@ function Main() {
             <a
               href="https://www.freepik.com/vectors/background"
               target="_blank"
+              rel="noopener"
             >
               Background vector created by freepik - www.freepik.com
             </a>
