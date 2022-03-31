@@ -61,11 +61,10 @@ function Main() {
       )
         .then(response => response.json())
         .then(data => {
-          console.log(data.weather[0].main)
           let main = data.weather[0].main
           let temp = Math.floor(data.main.temp - 273.15)
           let description = data.weather[0].description
-          main = "Rain"
+
           //change bg image
           if (main === "Rain") {
             setBgImage(prevBgImage => (prevBgImage = "rain.jpg"))
